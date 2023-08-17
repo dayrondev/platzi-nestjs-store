@@ -19,4 +19,9 @@ export class AppController {
   hello() {
     return '/con slash/'
   }
+
+  @Get('tasks')
+  tasks() {
+    return this.appService.getTasks()
+  }
 }

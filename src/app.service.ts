@@ -3,7 +3,6 @@ import { /*ConfigService*/ ConfigType } from '@nestjs/config'
 import { Client } from 'pg'
 
 import config from 'config'
-import { rejects } from 'assert'
 
 @Injectable()
 export class AppService {

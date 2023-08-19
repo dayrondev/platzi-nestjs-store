@@ -1,6 +1,16 @@
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm'
+
+@Entity()
 export class Customer {
-  id: number;
-  name: string;
-  lastName: string;
-  phone: string;
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column({ type: 'varchar' })
+  name: string
+
+  @Column({ type: 'varchar' })
+  lastName: string
+
+  @Column({ type: 'varchar' })
+  phone: string
 }

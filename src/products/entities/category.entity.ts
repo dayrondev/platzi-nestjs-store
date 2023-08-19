@@ -1,4 +1,10 @@
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm'
+
+@Entity()
 export class Category {
-  id: number;
-  name: string;
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  name: string
 }

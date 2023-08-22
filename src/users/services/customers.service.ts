@@ -8,15 +8,15 @@ import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto'
 @Injectable()
 export class CustomersService {
   constructor(
-    @InjectRepository(Customer) private customersRepo: Repository<Customer>
+    @InjectRepository(Customer) private customerRepo: Repository<Customer>
   ) {}
 
   findAll() {
-    return this.customersRepo.find()
+    return this.customerRepo.find()
   }
 
   async findOne(id: number) {
-    const item = await this.customersRepo.findOne({ where: { id } })
+    const item = await this.customerRepo.findOne({ where: { id } })
     if (!item) {
       throw new NotFoundException(`Customer #${id} not found`)
     }
@@ -24,17 +24,17 @@ export class CustomersService {
   }
 
   create(data: CreateCustomerDto) {
-    const item = this.customersRepo.create(data)
-    return this.customersRepo.save(item)
+    const item = this.customerRepo.create(data)
+    return this.customerRepo.save(item)
   }
 
   async update(id: number, changes: UpdateCustomerDto) {
-    const item = await this.customersRepo.findOne({ where: { id } })
-    this.customersRepo.merge(item, changes)
-    return this.customersRepo.save(item)
+    const item = await this.customerRepo.findOne({ where: { id } })
+    this.customerRepo.merge(item, changes)
+    return this.customerRepo.save(item)
   }
 
   remove(id: number) {
-    return this.customersRepo.delete(id)
+    return this.customerRepo.delete(id)
   }
 }

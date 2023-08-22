@@ -7,16 +7,17 @@ import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos'
 
 @Injectable()
 export class BrandsService {
-  constructor(
-    @InjectRepository(Brand) private brandsRepository: Repository<Brand>
-  ) {}
+  constructor(@InjectRepository(Brand) private brandRepo: Repository<Brand>) {}
 
   findAll() {
-    return this.brandsRepository.find()
+    return this.brandRepo.find()
   }
 
   async findOne(id: number) {
-    const item = await this.brandsRepository.findOne({ where: { id } })
+    const item = await this.brandRepo.findOne({
+      where: { id },
+      relations: ['products']
+    })
     if (!item) {
       throw new NotFoundException(`Brand #${id} not found`)
     }
@@ -24,17 +25,17 @@ export class BrandsService {
   }
 
   create(data: CreateBrandDto) {
-    const item = this.brandsRepository.create(data)
-    return this.brandsRepository.save(item)
+    const item = this.brandRepo.create(data)
+    return this.brandRepo.save(item)
   }
 
   async update(id: number, changes: UpdateBrandDto) {
-    const item = await this.brandsRepository.findOne({ where: { id } })
-    this.brandsRepository.merge(item, changes)
-    return this.brandsRepository.save(item)
+    const item = await this.brandRepo.findOne({ where: { id } })
+    this.brandRepo.merge(item, changes)
+    return this.brandRepo.save(item)
   }
 
   remove(id: number) {
-    return this.brandsRepository.delete(id)
+    return this.brandRepo.delete(id)
   }
 }

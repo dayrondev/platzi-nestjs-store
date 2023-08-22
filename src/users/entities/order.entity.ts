@@ -1,15 +1,68 @@
-import { Column, Entity } from 'typeorm'
-import { Product } from 'src/products/entities/product.entity'
-import { User } from './user.entity'
+import {
+  PrimaryGeneratedColumn,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn
+} from 'typeorm'
+import { Exclude, Expose } from 'class-transformer'
 
-@Entity()
+import { Customer } from './customer.entity'
+import { OrderProduct } from './order-product.entity'
+
+@Entity({ name: 'orders' })
 export class Order {
-  @Column({ type: 'date' })
-  date: Date
+  @PrimaryGeneratedColumn()
+  id: number
 
-  @Column({ type: 'int' })
-  user: User
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP'
+  })
+  createdAt: Date
 
-  @Column({ type: 'int' })
-  products: Product[]
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP'
+  })
+  updatedAt: Date
+
+  @ManyToOne(() => Customer, customer => customer.orders)
+  @JoinColumn({ name: 'customer_id' })
+  customer: Customer
+
+  @Exclude()
+  @OneToMany(() => OrderProduct, item => item.order)
+  products: OrderProduct[]
+
+  @Expose()
+  get items() {
+    if (this.products) {
+      return this.products
+        .filter(item => !!item)
+        .map(item => ({
+          ...item.product,
+          quantity: item.quantity,
+          itemId: item.id
+        }))
+    }
+    return []
+  }
+
+  @Expose()
+  get total() {
+    if (this.products) {
+      return this.products
+        .filter(item => !!item)
+        .reduce((total, item) => {
+          const totalItem = item.product.price * item.quantity
+          return total + totalItem
+        }, 0)
+    }
+    return null
+  }
 }

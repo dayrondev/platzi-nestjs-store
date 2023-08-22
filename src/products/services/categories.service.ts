@@ -9,15 +9,18 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dtos'
 export class CategoriesService {
   constructor(
     @InjectRepository(Category)
-    private categoriesRepository: Repository<Category>
+    private categoryRepo: Repository<Category>
   ) {}
 
   findAll() {
-    return this.categoriesRepository.find()
+    return this.categoryRepo.find()
   }
 
   async findOne(id: number) {
-    const item = await this.categoriesRepository.findOne({ where: { id } })
+    const item = await this.categoryRepo.findOne({
+      where: { id },
+      relations: ['products']
+    })
     if (!item) {
       throw new NotFoundException(`Category #${id} not found`)
     }
@@ -25,17 +28,17 @@ export class CategoriesService {
   }
 
   create(data: CreateCategoryDto) {
-    const item = this.categoriesRepository.create(data)
-    return this.categoriesRepository.save(item)
+    const item = this.categoryRepo.create(data)
+    return this.categoryRepo.save(item)
   }
 
   async update(id: number, changes: UpdateCategoryDto) {
-    const item = await this.categoriesRepository.findOne({ where: { id } })
-    this.categoriesRepository.merge(item, changes)
-    return this.categoriesRepository.save(item)
+    const item = await this.categoryRepo.findOne({ where: { id } })
+    this.categoryRepo.merge(item, changes)
+    return this.categoryRepo.save(item)
   }
 
   remove(id: number) {
-    return this.categoriesRepository.delete(id)
+    return this.categoryRepo.delete(id)
   }
 }

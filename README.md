@@ -2,9 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -29,7 +26,33 @@
 ## Installation
 
 ```bash
-$ npm install
+npm install
+```
+
+## Environment File
+
+For educational purposes use the following in your .env file
+
+```bash
+API_KEY=ABC123
+DATABASE_NAME=my_db
+DATABASE_PORT=8091
+PORT=3000
+JWT_SECRET='JWT_SECRET_KEY'
+
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/platzi-nestjs-store
+
+POSTGRES_DB=platzi-nestjs-store
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_PORT=5432
+POSTGRES_HOST=localhost
+
+MYSQL_DATABASE=my_db
+MYSQL_USER=root
+MYSQL_ROOT_PASSWORD=123456
+MYSQL_PORT=3306
+MYSQL_HOST=localhost
 ```
 
 ## Running the app

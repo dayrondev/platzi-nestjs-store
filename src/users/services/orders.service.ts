@@ -53,4 +53,11 @@ export class OrdersService {
   remove(id: number) {
     return this.orderRepo.delete(id)
   }
+
+  async ordersByCustomer(customerId: number) {
+    const customer = await this.customerRepo.findOne({
+      where: { id: customerId }
+    })
+    return await this.orderRepo.find({ where: { customer } })
+  }
 }

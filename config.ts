@@ -20,6 +20,7 @@ export default registerAs('config', () => {
       port: parseInt(process.env.MYSQL_PORT),
       database: process.env.MYSQL_DATABASE
     },
-    apiKey: process.env.API_KEY
+    apiKey: process.env.API_KEY,
+    jwtSecret: process.env.JWT_SECRET
   }
 })
